@@ -1,5 +1,13 @@
+# PDF: probability density function, 確率密度関数
+# CDF: cumulative distribution function, 累積分布関数
+# 標本値から得られた実験場のグラフと理論上得られるグラフを重ね合わせて比較する
+
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.stats import norm
+
+pi = np.pi
+e = np.e
 
 sample_amount = 10000
 
@@ -20,7 +28,7 @@ each_data_in_spread = [] # 各範囲に存在するdata_setの数値を入れる
 for i in range(0, int(data_range_spread/spread)): # 100はデータの分割個数
     each_data_in_spread.append([]) # 二次元配列
     for j in range(0, sample_amount):
-        if (i * spread) <= data_set[j] <= ((i + 1) * spread): # 例えば、50.0以上50.2以下ならdata_set[j]は区間49~50, つまりeach_data_in_spreadの500番目に入る
+        if (i * spread) <= data_set[j] <= ((i + 1) * spread): # 例えば、50.0以上50.1以下ならdata_set[j]は区間49~50, つまりeach_data_in_spreadの500番目に入る
             each_data_in_spread[i].append(data_set[j])
         elif data_set[j] > ((i + 1) * spread): # data_setはsortしてあるので、あるデータが測定範囲を超えたら後はスキップして良い
             break
@@ -31,10 +39,11 @@ for i in range(0, int(data_range_spread/spread)):
     num_of_occur.append(len(each_data_in_spread[i]))
 
 # x軸は最小値data_range_min, 最大値data_range_max, 間隔spread
+plt.figure()
 x = np.arange(data_range_min, data_range_max, spread)
 y = num_of_occur
-plt.plot(x, y) # 正規分布を描く（標準正規分布ではないことに注意）
-plt.show()
+# plt.plot(x, y) # 正規分布を描く（標準正規分布ではないことに注意）
+# plt.show() # TODO 後でコメントアウト解除
 
 # 各範囲のデータが出現する確率を入れる。例えば、ある生成されたデータが49以上50以下の範囲にある確率は、occur_probability[50]に入る
 occur_probability = []
@@ -44,9 +53,17 @@ for i in range(0, int(data_range_spread/spread)):
     occur_probability.append(p)
 
 y_op = occur_probability
+
+# x_theory = np.arange(data_range_min, data_range_max, spread)
+y_1 = (1/(np.sqrt(2*pi*variance))) * e**(-(x-avg)**2/(2*variance))
+z = (x-avg)/np.sqrt(variance)
+y_op_theory = (1/(np.sqrt(2*pi))) * e**(-z**2/2)
+
 plt.figure()
 plt.plot(x, y_op) # 標準正規分布を描く
+plt.plot(x, y_op_theory) # 理論上の標準正規分布を描く
 # SND: standard normal distribution
+
 plt.savefig("SND_avg=%d_var=%d.png" % (avg, variance))
 plt.show()
 
@@ -59,8 +76,10 @@ for i in range(0, int(data_range_spread/spread)): # 区間0からiまでの確�
     sum_of_probability.append(probability_range)
 
 y_sop = sum_of_probability
+y_sop_theory = norm.cdf(x, loc=avg, scale=std_deviation)
 plt.figure()
-plt.plot(x, y_sop) # 確率分布を描く
+plt.plot(x, y_sop) # 累積確率分布を描く
+plt.plot(x, y_sop_theory)
 # CDF: cumulative distribution function, 累積分布関数
-plt.savefig("CDF_avg=%d_var=%d.png" % (avg, variance))
+plt.savefig("PDF_avg=%d_var=%d.png" % (avg, variance))
 plt.show()

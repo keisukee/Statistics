@@ -22,24 +22,24 @@ data_sample10000 = np.random.normal(avg, std_deviation, 10000)
 plt.hist(x, bins=100)
 filename="hist_var=1000.png"
 plt.savefig(filename)
-# plt.show()
+plt.show()
 
-# plt.hist(data_sample100, bins=50)
-# filename="hist100.png"
-# plt.savefig(filename)
-#
-# plt.hist(data_sample500, bins=50)
-# filename="hist500.png"
-# plt.savefig(filename)
-#
-# plt.hist(data_sample1000, bins=50)
-# filename="hist1000.png"
-# plt.savefig(filename)
-#
-# plt.hist(data_sample5000, bins=100)
-# filename="hist5000.png"
-# plt.savefig(filename)
-#
-# plt.hist(data_sample10000, bins=100)
-# filename="hist10000.png"
-# plt.savefig(filename)
+plt.hist(data_sample100, bins=50)
+filename="hist100.png"
+plt.savefig(filename)
+
+plt.hist(data_sample500, bins=50)
+filename="hist500.png"
+plt.savefig(filename)
+
+plt.hist(data_sample1000, bins=50)
+filename="hist1000.png"
+plt.savefig(filename)
+
+plt.hist(data_sample5000, bins=100)
+filename="hist5000.png"
+plt.savefig(filename)
+
+plt.hist(data_sample10000, bins=100)
+filename="hist10000.png"
+plt.savefig(filename)

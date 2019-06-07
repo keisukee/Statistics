@@ -10,4 +10,5 @@ for data in data_sets:
     plt.figure()
     y = norm.pdf(x, loc=data[0], scale=sqrt(data[1])) # 平均40，標準偏差10の正規分布の累積分布関数
     plt.plot(x, y)
-    plt.savefig("pdf_avg=%d_var=%d.png" % (data[0], data[1]))
+    plt.show()
+    plt.savefig("PDF_avg=%d_var=%d.png" % (data[0], data[1]))
